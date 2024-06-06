@@ -29,7 +29,22 @@ numbers = {
     90: "ninety",
 }
 
-# and_print = ""
+units = [
+    "",
+    "thousand",
+    "million",
+    "billion",
+    "trillion",
+    "quadrillion",
+    "quintillion",
+    "sextillion",
+    "septillion",
+    "octillion",
+    "nonillion",
+    "decillion",
+]
+
+# and_print = "" # (used for testing)
 
 while True:
     user_and_input = input('Use "and" (like in "two hundred AND one")? (y/n): ')
@@ -44,15 +59,15 @@ while True:
 
 while True:
     user_input = input(
-        "Please enter a positive number <= 999 999 999 999 999 (999 trillion): "
+        f"Please enter a positive number <= {'9'*(len(units)*3)} (999 {units[-1]}): "
     )
     try:
         user_input = int(user_input)
         if user_input < 0:
             print("Please enter a number >= 0")
             continue
-        if user_input > 999999999999999:
-            print("Please enter a number <= 999 999 999 999 999 (999 trillion).")
+        if user_input > int("9" * (len(units) * 3)):
+            print(f"Please enter a number <= {'9'*(len(units)*3)} (999 {units[-1]}).")
             continue
     except ValueError:
         print("That's not a valid number")
@@ -66,8 +81,6 @@ while True:
         break
 
     break
-
-trillionth = billionth = millionth = thousandth = hundredth = tenth = unit = ""
 
 
 def chunk_of_digits(chunk):
@@ -101,20 +114,24 @@ def chunk_of_digits(chunk):
     return f"{hundredth}{tenth}{unit}"
 
 
-number_parts = (len(user_input) - 1) // 3 + 1
-# print(f"Number of chunks: {number_parts}")
+number_of_chunks = (len(user_input) - 1) // 3 + 1
 
-chunk5 = chunk4 = chunk3 = chunk2 = chunk1 = ""
+result_list = []
+result = ""
 
-if number_parts >= 1:
-    chunk1 = chunk_of_digits(user_input[-len(user_input) :])
-if number_parts >= 2:
-    chunk2 = f"{chunk_of_digits(user_input[-len(user_input) :-3])} thousand "
-if number_parts >= 3:
-    chunk3 = f"{chunk_of_digits(user_input[-len(user_input) : -6])} million "
-if number_parts >= 4:
-    chunk4 = f"{chunk_of_digits(user_input[-len(user_input) : -9])} billion "
-if number_parts >= 5:
-    chunk5 = f"{chunk_of_digits(user_input[-len(user_input) : -12])} trillion "
+pos_in_num = 0
+for g in range(number_of_chunks):
+    if g == 0:
+        result_list.append(
+            f"{chunk_of_digits(user_input[-len(user_input):])} {units[g]}"
+        )
+    else:
+        result_list.append(
+            f"{chunk_of_digits(user_input[-len(user_input):pos_in_num])} {units[g]} "
+        )
+    pos_in_num -= 3
 
-print(f"{chunk5}{chunk4}{chunk3}{chunk2}{chunk1}".capitalize())
+for item in result_list[::-1]:
+    result += item
+
+print(result.capitalize())
