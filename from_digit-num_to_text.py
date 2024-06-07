@@ -120,15 +120,20 @@ result_list = []
 result = ""
 
 pos_in_num = 0
+
 for g in range(number_of_chunks):
+
+    print(f"g: {g}, units: {units[g]}")
     if g == 0:
         result_list.append(
             f"{chunk_of_digits(user_input[-len(user_input):])} {units[g]}"
         )
     else:
-        result_list.append(
-            f"{chunk_of_digits(user_input[-len(user_input):pos_in_num])} {units[g]} "
-        )
+        if not user_input[-len(user_input) : pos_in_num].endswith("000"):
+            result_list.append(
+                f"{chunk_of_digits(user_input[-len(user_input):pos_in_num])} {units[g]} "
+            )
+
     pos_in_num -= 3
 
 for item in result_list[::-1]:
