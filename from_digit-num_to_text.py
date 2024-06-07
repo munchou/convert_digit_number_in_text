@@ -46,6 +46,20 @@ units = [
 
 # and_print = "" # (used for testing)
 
+print(
+    """You can enter number with , and ., such as "5,658,456.65". Please note that commas' positions are checked, so a typo will lead to an error."""
+)
+print('Depending on the option about "and", the output will be:')
+print(
+    "Five million six hundred fifty-eight thousand four hundred fifty-six and sixty-five"
+)
+print("or")
+print(
+    "Five million six hundred and fifty-eight thousand four hundred and fifty-six and sixty-five"
+)
+print()
+
+
 while True:
     user_and_input = input('Use "and" (like in "two hundred AND one")? (y/n): ')
     if user_and_input.casefold() == "y":
@@ -57,10 +71,38 @@ while True:
     else:
         continue
 
+
+def check_number_if_commas(number):
+    number = number.split(",")
+    for y in range(len(number)):
+        if y == 0 and len(number[y]) > 3 or y > 0 and len(number[y]) != 3:
+            return False
+
+
+decimals = None
+
 while True:
     user_input = input(
-        f"Please enter a positive number <= {'9'*(len(units)*3)} (999 {units[-1]}): "
+        f"\nPlease enter a positive number <= {'9'*(len(units)*3)} (999 {units[-1]}): "
     )
+
+    if "." in user_input:
+        if user_input.count(".") != 1:
+            print('Error: There cannot be more than one "."')
+            continue
+        user_input_split = user_input.split(".")
+        user_input = user_input_split[0]
+        decimals = user_input_split[1]
+
+        # print(user_input_split, user_input, decimals)
+
+    if "," in user_input:
+        if check_number_if_commas(user_input) is False:
+            print(
+                "There seems to be a problem with your input, please check if there isn't any typo."
+            )
+            continue
+        user_input = user_input.replace(",", "")
     try:
         user_input = int(user_input)
         if user_input < 0:
@@ -114,29 +156,52 @@ def chunk_of_digits(chunk):
     return f"{hundredth}{tenth}{unit}"
 
 
-number_of_chunks = (len(user_input) - 1) // 3 + 1
+def digits_to_text(user_input):
+    number_of_chunks = (len(user_input) - 1) // 3 + 1
 
-result_list = []
-result = ""
+    result_list = []
+    result = ""
+    pos_in_num = 0
 
-pos_in_num = 0
+    if user_input == decimals:
+        while True:
+            if user_input[0] == "0":
+                result += "zero "
+                user_input = user_input[1:]
+                continue
+            else:
+                number_of_chunks = (len(user_input) - 1) // 3 + 1
+                break
 
-for g in range(number_of_chunks):
-
-    print(f"g: {g}, units: {units[g]}")
-    if g == 0:
-        result_list.append(
-            f"{chunk_of_digits(user_input[-len(user_input):])} {units[g]}"
-        )
-    else:
-        if not user_input[-len(user_input) : pos_in_num].endswith("000"):
+    for g in range(number_of_chunks):
+        if g == 0:
             result_list.append(
-                f"{chunk_of_digits(user_input[-len(user_input):pos_in_num])} {units[g]} "
+                f"{chunk_of_digits(user_input[-len(user_input):])} {units[g]}"
             )
+        else:
+            if not user_input[-len(user_input) : pos_in_num].endswith("000"):
+                result_list.append(
+                    f"{chunk_of_digits(user_input[-len(user_input):pos_in_num])} {units[g]} "
+                )
 
-    pos_in_num -= 3
+        pos_in_num -= 3
 
-for item in result_list[::-1]:
-    result += item
+    for item in result_list[::-1]:
+        result += item
 
-print(result.capitalize())
+    if user_input != decimals and user_input.endswith("000"):
+        return result[:-2]
+
+    return result[:-1]
+
+
+(
+    print(f"\nConversion of {user_input}:")
+    if not decimals
+    else print(f"\nConversion of {user_input}.{decimals}:")
+)
+
+if decimals:
+    print(digits_to_text(user_input).capitalize(), "and", digits_to_text(decimals))
+else:
+    print(digits_to_text(user_input).capitalize())
