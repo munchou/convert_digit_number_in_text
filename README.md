@@ -22,10 +22,10 @@ What the program does not do for you:
 # Pre-requisites
 - Python (3.10.2+)
 - A number
-- The *.bat file is to quickly launch the script on Windows (and get all your IDs and passwords, but keep that a secret, pleaaase!).
+- The *.bat file is to quickly launch the script on Windows.
 
 
-Any bugs? Of course there are, Have you seen there size in Australia? Geezus!
+Any bugs? Of course there are. Have you seen there size in Australia? Geezus!
 
 # Updates (date = commit date)
 * / *
