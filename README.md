@@ -16,7 +16,7 @@ What the program does not do for you:
 - Your morning coffee
 - And much, much more
 
-# Preview (out of date since April 28, must make a new one)
+# Preview
 ![url](from_digit-num_to_text.gif)
 
 # Pre-requisites
