@@ -12,12 +12,12 @@ What the program does for you (for free, again...):
 
 What the program does not do for you:
 - Negative numbers (because you know, you just need to add "-", pronounced "minus", so...)
-- Tell you where your typo is
+- Tell you where your typo is (it does a little because I'm generous)
 - Your morning coffee
 - And much, much more
 
 # Preview
-![url](from_digit-num_to_text.gif)
+![url](images/from_digit-num_to_text_20240612.gif)
 
 # Pre-requisites
 - Python (3.10.2+)
@@ -28,4 +28,9 @@ What the program does not do for you:
 Any bugs? Of course there are. Have you seen there size in Australia? Geezus!
 
 # Updates (date = commit date)
-* / *
+*June 12,2024*
+- Added menus
+- Display options menu where the user can choose how the result will be displayed
+- In the options menu: choose to display (or not) "and" after "hundred"
+- In the options menu: how the decimals separator (".") is read ("point" or "and")
+- In the options menu: choose how the decimals are read (one by one as digits or as a whole number)
